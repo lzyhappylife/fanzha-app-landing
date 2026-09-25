@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国家反诈中心 App — 公安部出品 · 官方手机防骗保护软件</title>
+<meta name="description" content="国家反诈中心App是公安部推出的官方手机防骗保护软件，集预警提示、线索举报、涉诈App自检、AI内容鉴定、反诈宣传等功能于一身，累计向群众预警6.27亿次，是群众手机里的反诈“防火墙”。">
+<link rel="icon" href="assets/app-icon.png">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<!-- 动效库 B（沉浸氛围版）：AOS 滚动 + Hover.css 悬停 + Vanta 粒子首屏 + anime.js 编排 + Lenis 平滑滚动 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hover.css@2.3.2/css/hover-min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+<style>
+:root{
+  --ink:#0A1B3D;
+  --navy-900:#0D2A5E;
+  --navy-800:#11366F;
+  --navy-700:#16418F;
+  --blue:#2E6BFF;
+  --blue-600:#1D5AE6;
+  --blue-soft:#EAF1FF;
+  --red:#E5383B;
+  --red-deep:#C62A2E;
+  --red-soft:#FDECEC;
+  --gold:#F5A623;
+  --gold-soft:#FDF3E0;
+  --bg:#F5F8FE;
+  --white:#FFFFFF;
+  --line:#DCE6F7;
+  --text:#22304A;
+  --muted:#5B6B8C;
+  --shadow:0 18px 50px rgba(13,42,94,.12);
+  --radius:16px;
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+body{
+  font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  color:var(--text);background:var(--bg);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+ul{list-style:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{scroll-margin-top:72px}
+.section-head{max-width:760px;margin:0 auto 48px;text-align:center}
+.section-head .eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--blue);
+  background:var(--blue-soft);border:1px solid #CFDFFF;
+  padding:6px 14px;border-radius:999px;margin-bottom:18px;
+}
+.section-head h2{font-size:34px;font-weight:900;color:var(--ink);line-height:1.3;letter-spacing:.01em}
+.section-head .sub{margin-top:14px;color:var(--muted);font-size:16px}
+
+/* ========== 顶部导航 ========== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,27,61,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:background .3s ease,box-shadow .3s ease;
+}
+.nav.scrolled{background:rgba(255,255,255,.94);box-shadow:0 1px 0 var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;transition:color .3s}
+.nav.scrolled .brand{color:var(--ink)}
+.brand svg{flex:none}
+.brand-icon{width:36px;height:36px;border-radius:9px;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.brand .brand-name{font-size:17px;font-weight:900;letter-spacing:.02em}
+.brand .brand-name small{display:block;font-size:10.5px;font-weight:500;opacity:.72;letter-spacing:.08em}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{
+  font-size:14.5px;font-weight:500;color:rgba(255,255,255,.86);
+  padding:8px 14px;border-radius:8px;transition:all .2s;
+}
+.nav.scrolled .nav-links a{color:var(--text)}
+.nav-links a:hover{background:rgba(255,255,255,.12);color:#fff}
+.nav.scrolled .nav-links a:hover{background:var(--blue-soft);color:var(--blue)}
+.nav-cta{
+  font-size:14px;font-weight:700;color:#fff;background:var(--red);
+  padding:9px 20px;border-radius:999px;transition:all .2s;
+}
+.nav-cta:hover{background:var(--red-deep);transform:translateY(-1px)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px}
+.nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;border-radius:2px;transition:all .3s}
+.nav.scrolled .nav-toggle span{background:var(--ink)}
+@media(max-width:860px){
+  .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;background:#fff;padding:12px 20px;gap:2px;display:none;box-shadow:0 20px 40px rgba(10,27,61,.14)}
+  .nav-links.open{display:flex}
+  .nav-links a{color:var(--text);padding:12px 14px}
+  .nav-links a:hover{background:var(--blue-soft)}
+  .nav-toggle{display:block}
+  .nav .nav-cta{display:none}
+}
+
+/* ========== Hero ========== */
+.hero{
+  position:relative;overflow:hidden;
+  background:radial-gradient(1200px 600px at 85% -10%,#1E4FA8 0%,transparent 55%),
+             radial-gradient(900px 500px at -10% 110%,#16418F 0%,transparent 50%),
+             linear-gradient(160deg,#0A1B3D 0%,#0D2A5E 55%,#11366F 100%);
+  color:#fff;padding:148px 0 0;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(700px 460px at 70% 30%,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(700px 460px at 70% 30%,#000 20%,transparent 75%);
+}
+.hero-inner{position:relative;max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:13.5px;font-weight:700;color:#FFE9A8;
+  background:rgba(245,166,35,.14);border:1px solid rgba(245,166,35,.45);
+  padding:7px 15px;border-radius:999px;margin-bottom:26px;
+}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(245,166,35,.22)}
+.hero h1{font-size:52px;line-height:1.22;font-weight:900;letter-spacing:.01em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.hero h1 .accent{color:#7FA8FF}
+.hero .lead{margin-top:20px;font-size:17.5px;line-height:1.85;color:rgba(255,255,255,.88);max-width:560px}
+.hero .lead b{color:#fff}
+.hero-actions{margin-top:34px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:16px;font-weight:700;padding:14px 30px;border-radius:999px;
+  transition:all .22s ease;cursor:pointer;border:none;font-family:inherit;
+}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(229,56,59,.38)}
+.btn-primary:hover{background:var(--red-deep);box-shadow:0 14px 32px rgba(229,56,59,.45)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.38)}
+.btn-ghost:hover{background:rgba(255,255,255,.2)}
+.hero-trust{margin-top:26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.75)}
+.hero-trust .item{display:inline-flex;align-items:center;gap:7px}
+.hero-trust svg{flex:none}
+.hero-phone-wrap{position:relative;display:flex;justify-content:center;padding-bottom:0}
+.phone{
+  position:relative;width:292px;border-radius:46px;background:#0B1426;
+  padding:12px;box-shadow:0 40px 90px rgba(0,0,0,.5),0 0 0 1.5px rgba(255,255,255,.14);
+  transform:perspective(1200px) rotateY(-6deg) rotateX(2deg);
+  transition:transform .5s ease;
+}
+.phone:hover{transform:perspective(1200px) rotateY(-2deg) rotateX(1deg)}
+.phone-notch{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:92px;height:19px;background:#0B1426;border-radius:0 0 13px 13px;z-index:3}
+.phone-screen{border-radius:36px;overflow:hidden;background:#fff;aspect-ratio:9/19;position:relative}
+.phone-screen img{width:100%;height:100%;object-fit:cover}
+.phone-status{position:absolute;top:0;left:0;right:0;padding:6px 26px 0;display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#fff;z-index:2;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.float-card{
+  position:absolute;background:rgba(255,255,255,.97);color:var(--text);
+  border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.28);
+  padding:13px 16px;display:flex;align-items:center;gap:12px;font-size:13px;line-height:1.45;
+  animation:floaty 4.6s ease-in-out infinite;
+}
+.float-card .fc-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:none}
+.float-card .fc-t{font-weight:700;font-size:13.5px}
+.float-card .fc-d{color:var(--muted);font-size:12px}
+.float-card.warn{left:-96px;top:120px;animation-delay:0s}
+.float-card.warn .fc-icon{background:var(--red-soft)}
+.float-card.safe{right:-86px;bottom:140px;animation-delay:2.2s}
+.float-card.safe .fc-icon{background:var(--blue-soft)}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-scroll-note{position:relative;text-align:center;padding:30px 0 26px;font-size:12.5px;color:rgba(255,255,255,.55);letter-spacing:.14em;z-index:2}
+#vanta-hero{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-inner{position:relative;z-index:1}
+@media(max-width:980px){
+  .hero-inner{grid-template-columns:1fr;gap:56px;padding-top:20px}
+  .hero h1{font-size:38px}
+  .hero-phone-wrap{order:-1}
+  .float-card.warn{left:auto;right:calc(50% + 190px)}
+  .float-card.safe{right:auto;left:calc(50% + 190px)}
+}
+@media(max-width:600px){
+  .hero{padding-top:120px}
+  .hero h1{font-size:31px}
+  .float-card.warn,.float-card.safe{display:none}
+}
+
+/* ========== 数据条 ========== */
+.stats{position:relative;z-index:2;margin-top:-34px}
+.stats-inner{
+  background:#fff;border-radius:22px;box-shadow:var(--shadow);
+  padding:36px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  border:1px solid var(--line);
+}
+.stat{text-align:center;padding:8px 12px;position:relative}
+.stat + .stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:58px;background:var(--line)}
+.stat .num{
+  font-size:40px;font-weight:900;color:var(--navy-900);letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;line-height:1.15;
+}
+.stat .num.gold{color:var(--red)}
+.stat .unit{font-size:16px;font-weight:700;color:var(--navy-700);margin-left:3px}
+.stat .label{margin-top:6px;font-size:13.5px;color:var(--muted)}
+.stat .label b{color:var(--text)}
+@media(max-width:900px){
+  .stats-inner{grid-template-columns:1fr 1fr;gap:26px 8px}
+  .stat:nth-child(3)::before{display:none}
+  .stat .num{font-size:32px}
+}
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr 1fr;padding:28px 14px}
+  .stat + .stat::before{display:none}
+}
+
+/* ========== 核心功能 ========== */
+#features{padding:96px 0 40px}
+.feature-stage{
+  background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:420px 1fr;overflow:hidden;
+}
+.feature-tabs{border-right:1px solid var(--line);padding:22px 18px;background:#FBFDFF}
+.ftab{
+  display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;
+  padding:15px 16px;border-radius:14px;border:none;background:transparent;cursor:pointer;
+  font-family:inherit;transition:all .2s ease;margin-bottom:4px;
+}
+.ftab:hover{background:var(--blue-soft)}
+.ftab.active{background:var(--navy-900);box-shadow:0 10px 24px rgba(13,42,94,.25)}
+.ftab .fi{
+  width:42px;height:42px;border-radius:12px;flex:none;
+  display:flex;align-items:center;justify-content:center;background:var(--blue-soft);transition:all .2s;
+}
+.ftab.active .fi{background:rgba(255,255,255,.16)}
+.ftab > span:last-child{display:block;min-width:0;flex:1}
+.ftab .ft-name{display:block;font-size:15.5px;font-weight:700;color:var(--ink);transition:color .2s;line-height:1.4}
+.ftab .ft-tag{
+  display:inline-block;margin-left:8px;font-size:10.5px;font-weight:700;color:var(--red);
+  background:var(--red-soft);border-radius:5px;padding:1px 7px;vertical-align:2px;
+}
+.ftab.active .ft-name{color:#fff}
+.ftab .ft-desc{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.55}
+.ftab.active .ft-desc{color:rgba(255,255,255,.72)}
+.feature-panel{
+  position:relative;display:flex;align-items:center;gap:40px;
+  padding:44px 52px;min-height:520px;
+}
+.feature-copy{flex:1;min-width:0}
+.feature-copy .fc-kicker{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.1em;margin-bottom:10px}
+.feature-copy h3{font-size:27px;font-weight:900;color:var(--ink);line-height:1.35;margin-bottom:14px}
+.feature-copy p{color:var(--muted);font-size:15.5px;line-height:1.85;margin-bottom:18px}
+.feature-points{display:flex;flex-direction:column;gap:11px}
+.feature-points li{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--text);line-height:1.6}
+.feature-points .fp-ic{width:21px;height:21px;border-radius:50%;background:var(--blue-soft);flex:none;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.feature-points .fp-ic svg{flex:none}
+.fp-note{margin-top:16px;font-size:12.5px;color:var(--muted);background:var(--gold-soft);border:1px solid #F5D9A8;border-radius:10px;padding:9px 13px}
+.fp-note b{color:#B97A08}
+.phone-demo{flex:none;width:236px;position:relative}
+.demo-phone{
+  background:#0B1426;border-radius:38px;padding:10px;
+  box-shadow:0 26px 60px rgba(13,42,94,.3);
+}
+.demo-screen{
+  background:#F3F6FC;border-radius:28px;overflow:hidden;height:452px;position:relative;
+  display:flex;flex-direction:column;
+}
+.demo-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 14px;font-size:10.5px;color:#fff;font-weight:700}
+.demo-title{text-align:center;padding:1px 0 9px;color:#fff;font-size:15px;font-weight:700;letter-spacing:.02em}
+.demo-blue{background:linear-gradient(160deg,#12397A,#1D5AE6)}
+.demo-body{padding:9px 11px 11px;display:flex;flex-direction:column;gap:7px}
+.demo-banner{
+  border-radius:12px;padding:10px 12px;color:#fff;font-size:11.5px;line-height:1.5;font-weight:700;
+}
+.demo-card{background:#fff;border-radius:12px;padding:9px 11px;box-shadow:0 4px 14px rgba(13,42,94,.06)}
+.demo-card .dc-row{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;padding:5px 0}
+.demo-card .dc-name{font-weight:700;color:var(--ink)}
+.demo-card .dc-val{font-size:11px;color:var(--muted)}
+.badge-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.b-red{background:var(--red)}.b-green{background:#22A06B}.b-blue{background:var(--blue)}.b-gray{background:#C3CDE2}
+.demo-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.demo-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.demo-grid4 .dg-item{background:#fff;border-radius:11px;padding:11px 4px;text-align:center;box-shadow:0 3px 10px rgba(13,42,94,.05)}
+.demo-grid4 .dg-item .dg-ic{width:34px;height:34px;border-radius:10px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center}
+.demo-grid4 .dg-item .dg-t{font-size:10px;color:var(--text);font-weight:500}
+.demo-sec-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;padding:2px 2px 0}
+.demo-list .dl{display:flex;gap:9px;align-items:flex-start;background:#fff;border-radius:11px;padding:9px 11px;box-shadow:0 3px 10px rgba(13,42,94,.05)}
+.demo-list .dl .dl-t{font-size:11px;font-weight:700;color:var(--ink);line-height:1.4}
+.demo-list .dl .dl-d{font-size:9.5px;color:#A0AEC8;margin-top:2px}
+.demo-list .dl .dl-img{width:34px;height:34px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center}
+.demo-nav{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:space-around;font-size:9px;color:var(--muted);padding:6px 8px 2px;background:rgba(255,255,255,.95)}
+.demo-nav .dn-on{color:var(--blue);font-weight:700}
+.fade-panel{display:none}
+.fade-panel.show{display:block;animation:panelIn .38s ease}
+@keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1080px){
+  .feature-stage{grid-template-columns:1fr}
+  .feature-tabs{display:grid;grid-template-columns:1fr 1fr;border-right:none;border-bottom:1px solid var(--line);padding:14px}
+  .feature-panel{flex-direction:column;padding:36px 28px;min-height:0}
+  .phone-demo{width:200px}
+}
+@media(max-width:600px){
+  .feature-tabs{grid-template-columns:1fr}
+  .section-head h2{font-size:27px}
+}
+
+/* ========== 界面展示 ========== */
+#screens{padding:96px 0}
+.screens-stage{
+  background:linear-gradient(170deg,#0D2A5E 0%,#16418F 55%,#1D5AE6 120%);
+  border-radius:28px;padding:58px 40px;position:relative;overflow:hidden;
+}
+.screens-stage::before{
+  content:"";position:absolute;inset:0;opacity:.4;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.screens-stage::after{content:"";position:absolute;inset:0;background:radial-gradient(500px 300px at 50% 0%,rgba(126,168,255,.25),transparent 70%)}
+.screens-inner{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.screens-copy h3{font-size:30px;font-weight:900;color:#fff;line-height:1.35}
+.screens-copy p{margin-top:14px;color:rgba(255,255,255,.8);font-size:15.5px;line-height:1.85}
+.screens-thumbs{margin-top:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sthumb{
+  border:2px solid rgba(255,255,255,.22);border-radius:12px;overflow:hidden;
+  cursor:pointer;transition:all .2s;background:rgba(255,255,255,.08);
+}
+.sthumb img{width:100%;aspect-ratio:9/19;object-fit:cover;opacity:.8;transition:all .2s}
+.sthumb:hover{border-color:rgba(255,255,255,.6);transform:translateY(-3px)}
+.sthumb.on{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.3)}
+.sthumb.on img{opacity:1}
+.sthumb .st-label{font-size:10.5px;color:rgba(255,255,255,.82);text-align:center;padding:6px 2px 7px;font-weight:500}
+.screens-stage .phone{transform:none;width:248px;margin:0 auto}
+.screens-stage .phone:hover{transform:translateY(-4px)}
+.screens-stage .phone-screen{aspect-ratio:9/19}
+@media(max-width:960px){
+  .screens-inner{grid-template-columns:1fr;gap:34px}
+  .screens-thumbs{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:560px){
+  .screens-stage{padding:40px 20px}
+  .screens-thumbs{grid-template-columns:1fr 1fr}
+}
+
+/* ========== 演进时间轴 ========== */
+#timeline{padding:40px 0 96px}
+.tl{display:grid;grid-template-columns:1fr;row-gap:0;max-width:860px;margin:0 auto}
+.tl-row{display:grid;grid-template-columns:140px 36px 1fr;padding-bottom:44px}
+.tl-row:last-child{padding-bottom:0}
+.tl-date{text-align:right;padding:4px 14px 0 0;font-size:14px;font-weight:900;color:var(--navy-700);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-axle{position:relative;justify-self:center;width:3px;align-self:stretch;background:linear-gradient(#D5E2FA,#9DB9F0)}
+.tl-axle::before{
+  content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  width:17px;height:17px;border-radius:50%;background:#fff;border:4px solid var(--blue);
+  box-shadow:0 0 0 5px var(--blue-soft);box-sizing:border-box;
+}
+.tl-axle.has-gold::before{border-color:var(--red);box-shadow:0 0 0 5px var(--red-soft)}
+.tl-body{padding:0 0 0 26px}
+.tl-body h4{font-size:18px;font-weight:900;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tl-tag{font-size:11px;font-weight:700;color:var(--red);background:var(--red-soft);border-radius:6px;padding:2px 9px}
+.tl-body p{font-size:14px;color:var(--muted);line-height:1.75;max-width:560px}
+@media(max-width:640px){
+  .tl-row{grid-template-columns:1fr;gap:8px}
+  .tl-date{text-align:left;padding:0 0 0 26px}
+  .tl-axle{display:none}
+  .tl-body{padding-left:26px}
+}
+
+/* ========== 反诈生态 ========== */
+#ecosystem{padding:96px 0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eco-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.eco-card{
+  border:1px solid var(--line);border-radius:18px;padding:24px 20px;
+  transition:all .25s ease;position:relative;overflow:hidden;background:#FBFDFF;
+}
+.eco-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:#BBD2FF}
+.eco-card .eco-badge{
+  position:absolute;top:16px;right:16px;font-size:10.5px;font-weight:700;
+  color:var(--blue);background:var(--blue-soft);border-radius:6px;padding:2px 8px;
+}
+.eco-card.main{border-color:#BBD2FF;background:linear-gradient(170deg,#F4F8FF,#FFFFFF)}
+.eco-card.main .eco-badge{color:var(--red);background:var(--red-soft)}
+.eco-ic{
+  width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:var(--navy-900);margin-bottom:16px;
+}
+.eco-card h4{font-size:16.5px;font-weight:900;color:var(--ink);line-height:1.4}
+.eco-card .eco-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px;min-height:66px}
+.eco-card .eco-data{
+  margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:13px;color:var(--text);
+}
+.eco-card .eco-data b{font-size:19px;font-weight:900;color:var(--navy-900);font-variant-numeric:tabular-nums}
+@media(max-width:1080px){.eco-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.eco-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.eco-grid{grid-template-columns:1fr}}
+
+/* ========== 骗局识别 ========== */
+#scams{padding:96px 0}
+.scam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.scam-card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 24px;
+  display:flex;gap:16px;transition:all .25s ease;position:relative;overflow:hidden;
+}
+.scam-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red);opacity:0;transition:opacity .25s}
+.scam-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.scam-card:hover::before{opacity:1}
+.scam-no{font-size:30px;font-weight:900;color:#D5E2FA;line-height:1;flex:none;font-variant-numeric:tabular-nums}
+.scam-card h4{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:7px}
+.scam-card p{font-size:13.5px;color:var(--muted);line-height:1.75}
+.mantra{
+  margin-top:44px;background:linear-gradient(120deg,#0D2A5E,#16418F);
+  border-radius:22px;padding:38px 34px;color:#fff;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;
+}
+.mantra::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.06)}
+.mantra-ic{width:74px;height:74px;border-radius:20px;background:rgba(245,166,35,.16);border:1px solid rgba(245,166,35,.4);display:flex;align-items:center;justify-content:center;flex:none}
+.mantra h4{font-size:15px;font-weight:700;color:#FFE9A8;letter-spacing:.12em;margin-bottom:12px}
+.mantra-items{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mantra-items .m-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px}
+.mantra-items .m-item .m-n{font-size:26px;font-weight:900;color:var(--gold);line-height:1}
+.mantra-items .m-item .m-t{font-size:13.5px;font-weight:700;margin-top:6px}
+.mantra-items .m-item .m-d{font-size:11.5px;color:rgba(255,255,255,.72);margin-top:3px;line-height:1.5}
+@media(max-width:980px){
+  .scam-grid{grid-template-columns:1fr 1fr}
+  .mantra{grid-template-columns:1fr;gap:24px}
+  .mantra-items{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){.scam-grid{grid-template-columns:1fr}}
+
+/* ========== 下载 ========== */
+#download{padding:96px 0;background:#fff;border-top:1px solid var(--line)}
+.dl-wrap{
+  background:linear-gradient(160deg,#0A1B3D,#11366F 70%,#16418F);
+  border-radius:28px;padding:60px 48px;position:relative;overflow:hidden;color:#fff;
+}
+.dl-wrap::before{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:46px 46px;}
+.dl-inner{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+.dl-copy h3{font-size:32px;font-weight:900;line-height:1.35}
+.dl-copy p{margin-top:14px;color:rgba(255,255,255,.82);font-size:15.5px;line-height:1.85}
+.dl-steps{margin-top:24px;display:flex;flex-direction:column;gap:14px}
+.dl-step{display:flex;align-items:flex-start;gap:14px}
+.dl-step .ds-n{
+  width:30px;height:30px;border-radius:50%;flex:none;background:var(--gold);color:#4A2E00;
+  font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;
+}
+.dl-step .ds-t{font-size:14.5px;font-weight:700}
+.dl-step .ds-d{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:1px}
+.store-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.store-card{
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:16px;
+  padding:18px 16px;display:flex;align-items:center;gap:13px;transition:all .22s;cursor:pointer;text-align:left;
+  font-family:inherit;color:#fff;
+}
+.store-card:hover{background:rgba(255,255,255,.16);transform:translateY(-3px)}
+.store-card .st-ic{width:44px;height:44px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;background:#fff}
+.store-card .st-name{font-size:14px;font-weight:700}
+.store-card .st-note{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:1px}
+@media(max-width:900px){
+  .dl-inner{grid-template-columns:1fr;gap:34px}
+  .dl-wrap{padding:46px 26px}
+}
+
+/* ========== Footer ========== */
+.footer{background:#081530;color:rgba(255,255,255,.62);padding:48px 0 42px;font-size:13px}
+.footer-inner{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.footer-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:16px}
+.footer-brand .brand-icon{width:28px;height:28px;border-radius:7px;box-shadow:none}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.72);transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-note{padding-top:24px;line-height:1.9;font-size:12.5px}
+.footer-note b{color:rgba(255,255,255,.85)}
+.footer-note a{color:#8FB0FF}
+
+/* 下载区：脉冲发光CTA + 步骤编排 */
+.dl-cta{
+  margin-top:30px;display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(120deg,#E5383B,#C62A2E);color:#fff;
+  font-size:17px;font-weight:900;letter-spacing:.02em;
+  padding:16px 38px;border-radius:999px;border:none;cursor:pointer;font-family:inherit;
+  animation:ctaPulse 2.2s ease-out infinite;transition:transform .2s;
+}
+.dl-cta:hover{transform:translateY(-2px) scale(1.02)}
+@keyframes ctaPulse{
+  0%{box-shadow:0 0 0 0 rgba(229,56,59,.55)}
+  70%{box-shadow:0 0 0 24px rgba(229,56,59,0)}
+  100%{box-shadow:0 0 0 0 rgba(229,56,59,0)}
+}
+.dl-step{position:relative}
+.dl-step .ds-n{box-shadow:0 0 0 6px rgba(245,166,35,.18)}
+.store-card:hover{transform:translateY(-4px)}
+/* 常驻悬浮：骗子 vs 警官 */
+.float-char{position:fixed;bottom:22px;z-index:90;display:flex;flex-direction:column;gap:8px;max-width:220px}
+.float-char.left{left:20px;align-items:flex-start}
+.float-char.right{right:20px;align-items:flex-end}
+.float-bubble{
+  position:relative;background:#fff;color:var(--text);
+  border-radius:14px;padding:10px 14px;font-size:12.5px;line-height:1.55;
+  box-shadow:0 10px 28px rgba(10,27,61,.2);
+  border:1px solid var(--line);
+  min-height:64px;display:flex;flex-direction:column;justify-content:center;
+  opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;
+}
+.float-bubble.show{opacity:1;transform:translateY(0)}
+.float-bubble .who{font-size:10px;font-weight:900;letter-spacing:.08em;margin-bottom:3px}
+.float-char.left .float-bubble .who{color:var(--red)}
+.float-char.right .float-bubble .who{color:var(--blue)}
+.float-bubble::after{content:"";position:absolute;bottom:-6px;width:12px;height:12px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.float-char.left .float-bubble::after{left:26px}
+.float-char.right .float-bubble::after{right:26px;left:auto}
+.float-face{width:86px;height:86px;border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 10px 26px rgba(10,27,61,.3);animation:talkBob 1.8s ease-in-out infinite}
+.float-face img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+@keyframes talkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media(max-width:768px){
+  .float-char{bottom:14px;max-width:150px}
+  .float-face{width:58px;height:58px}
+  .float-bubble{font-size:11px;padding:8px 10px}
+}
+@media (prefers-reduced-motion: reduce){
+  .float-face{animation:none}
+}
+/* toast */
+.toast{
+  position:fixed;left:50%;bottom:36px;transform:translate(-50%,80px);
+  background:#0D2A5E;color:#fff;padding:13px 24px;border-radius:12px;
+  font-size:14px;font-weight:500;box-shadow:0 16px 40px rgba(10,27,61,.35);
+  opacity:0;transition:all .35s ease;z-index:200;max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .float-card{animation:none}
+  .fade-panel.show{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 顶部导航 ========== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="国家反诈中心App首页">
+      <img class="brand-icon" src="assets/app-icon.png" alt="国家反诈中心App图标">
+      <span class="brand-name">国家反诈中心 App<small>公安部出品 · 反诈防火墙</small></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">核心功能</a>
+      <a href="#screens">界面展示</a>
+      <a href="#timeline">产品演进</a>
+      <a href="#ecosystem">反诈生态</a>
+      <a href="#scams">骗局识别</a>
+    </div>
+    <a class="nav-cta" href="#download">立即下载</a>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== Hero ========== -->
+<header class="hero" id="top">
+  <div id="vanta-hero"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-badge"><span class="dot"></span>公安部刑事侦查局官方推出 · 完全免费</div>
+      <h1 id="heroTitle">国家反诈中心 App<br><span class="accent">你手机里的反诈“防火墙”</span></h1>
+      <p class="lead" id="heroLead">诈骗电话、诈骗短信，<b>它替你提前预警</b>；手机里被偷偷装上的涉诈 App，<b>它帮你识别清理</b>；可疑的网友和账号，<b>它帮你核实身份</b>。官方手机防骗保护软件，为全家人的“钱袋子”加一道锁。</p>
+      <div class="hero-actions" id="heroActions">
+        <a class="btn btn-primary hvr-float-shadow" href="#download">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          立即免费下载
+        </a>
+        <a class="btn btn-ghost hvr-float-shadow" href="#features">了解核心功能</a>
+      </div>
+      <div class="hero-trust" id="heroTrust">
+        <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12l2.2 2.2 4.2-4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>公安部官方出品</span>
+        <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.2-9.2C1.5 8.5 3.6 5.5 6.8 5.5c1.9 0 3.4 1 4.2 2.5.8-1.5 2.3-2.5 4.2-2.5 3.2 0 5.3 3 5 6.3C18.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>完全免费 · 无广告</span>
+        <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 11V8a4 4 0 1 1 8 0v3m-9.5 1h11a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5v-7A1.5 1.5 0 0 1 6.5 12z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>隐私保护 · 官方应用市场下载</span>
+      </div>
+    </div>
+    <div class="hero-phone-wrap" id="heroPhone">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <img src="assets/home-1080.png" alt="国家反诈中心App首页界面">
+        </div>
+      </div>
+      <div class="float-card warn">
+        <div class="fc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5m0 3.5v.5M10.3 3.9 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" stroke="#E5383B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><div class="fc-t">疑似诈骗来电预警</div><div class="fc-d">已拦截境外可疑来电</div></div>
+      </div>
+      <div class="float-card safe">
+        <div class="fc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z" stroke="#2E6BFF" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.8 12l2.2 2.2 4.2-4.4" stroke="#2E6BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><div class="fc-t">涉诈App 已清理</div><div class="fc-d">自检发现 1 个风险应用</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-note">SCROLL · 了解更多</div>
+</header>
+
+<!-- ========== 数据成效 ========== -->
+<section class="stats" id="stats">
+  <div class="wrap">
+    <div class="stats-inner" data-aos="fade-up">
+      <div class="stat">
+        <div><span class="num" data-count="6.27" data-decimals="2">0</span><span class="unit">亿次</span></div>
+        <div class="label">累计向群众发出<b>预警提示</b></div>
+      </div>
+      <div class="stat">
+        <div><span class="num" data-count="3845" data-decimals="0">0</span><span class="unit">万条</span></div>
+        <div class="label">累计受理群众<b>举报线索</b></div>
+      </div>
+      <div class="stat">
+        <div><span class="num">2021</span><span class="unit">年</span></div>
+        <div class="label"><b>3月15日</b>正式上线运营</div>
+      </div>
+      <div class="stat">
+        <div><span class="num gold">¥0</span></div>
+        <div class="label">永久<b>免费</b> · 无任何收费项目</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 核心功能 ========== -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-head" data-aos="fade-up">
+      <div class="eyebrow">CORE FEATURES · 核心功能</div>
+      <h2>六大核心能力，层层设防</h2>
+      <p class="sub">从“骗子找上你”到“你主动核实”，国家反诈中心 App 覆盖反诈全流程。</p>
+    </div>
+    <div class="feature-stage" data-aos="fade-up" data-aos-delay="120">
+      <div class="feature-tabs">
+        <button class="ftab active" data-panel="p1">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="#2E6BFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 7h2M9.5 18h5" stroke="#2E6BFF" stroke-width="1.8" stroke-linecap="round"/><path d="M12 11v3m0 0 1.2-1.2M12 14l-1.2-1.2" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><span class="ft-name">电话 · 短信预警</span><span class="ft-desc">涉诈来电、短信、网址，第一时间提醒</span></span>
+        </button>
+        <button class="ftab" data-panel="p2">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11h10v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6z" stroke="#2E6BFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 11V8.5a3.5 3.5 0 1 1 7 0V11M12 14.5v2" stroke="#2E6BFF" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span><span class="ft-name">一键举报线索</span><span class="ft-desc">可疑内容随手传，反诈中心跟进处置</span></span>
+        </button>
+        <button class="ftab" data-panel="p3">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5z" stroke="#2E6BFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 4v5h5" stroke="#2E6BFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 14.5l1.6 1.6 3.4-3.6" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><span class="ft-name">涉诈 App 自检<span class="ft-tag">2026 新功能</span></span><span class="ft-desc">扫描手机应用与安装包，涉诈即提示清理</span></span>
+        </button>
+        <button class="ftab" data-panel="p4">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="#2E6BFF" stroke-width="1.8"/><circle cx="9" cy="9" r="1.6" fill="#2E6BFF"/><circle cx="15" cy="9" r="1.6" fill="#2E6BFF"/><path d="M8.5 14.5c.8 1 2.1 1.6 3.5 1.6s2.7-.6 3.5-1.6" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round"/><path d="M17.5 17.5l3-3" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span><span class="ft-name">AI 内容鉴定<span class="ft-tag">2026 新功能</span></span><span class="ft-desc">识别图片视频音频文本的 AI 生成痕迹</span></span>
+        </button>
+        <button class="ftab" data-panel="p5">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="#2E6BFF" stroke-width="1.8"/><path d="M16 16l4.5 4.5" stroke="#2E6BFF" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span><span class="ft-name">身份核实 · 风险查询</span><span class="ft-desc">可疑账号、网址，交易前先查一查</span></span>
+        </button>
+        <button class="ftab" data-panel="p6">
+          <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h10" stroke="#2E6BFF" stroke-width="1.8" stroke-linecap="round"/><path d="M17.5 15.5V19l2.2-1.4v-2.1" stroke="#E5383B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><span class="ft-name">反诈宣传 · 骗局曝光</span><span class="ft-desc">真实案例拆解，防骗知识天天学</span></span>
+        </button>
+      </div>
+      <div class="feature-panels">
+        <div class="feature-panel fade-panel show" id="p1">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 01 · 事前拦截</div>
+            <h3>涉诈电话、短信，<br>还没接起就已预警</h3>
+            <p>当您收到涉嫌诈骗的电话或短信时，App 会尽可能进行预警提示；浏览涉诈网址同样会被识别提醒，让您在被骗之前先一步知道。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>涉诈电话来电时弹出预警提示，劝阻接听</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>涉诈短信、涉诈网址智能识别，及时提醒</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>与 96110 预警劝阻专线、12381 短信联动守护</li>
+            </ul>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>来电预警</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">来电预警</div>
+              <div class="demo-body">
+                <div class="demo-banner" style="background:linear-gradient(120deg,#C62A2E,#E5383B)">疑似诈骗来电<br>号码：+85 2 6550 xxxx</div>
+                <div class="demo-card">
+                  <div class="dc-row"><span class="dc-name">境外来电提醒</span><span class="badge-dot b-red"></span></div>
+                  <div class="dc-row"><span class="dc-val">该号码无归属地记录，建议拒接</span></div>
+                </div>
+                <div class="demo-card">
+                  <div class="dc-row"><span class="dc-name">历史预警记录</span><span class="dc-val">今日 2 条</span></div>
+                  <div class="dc-row" style="font-size:10.5px;color:#5B6B8C">08:32 · 冒充公检法来电 · 已拦截</div>
+                  <div class="dc-row" style="font-size:10.5px;color:#5B6B8C">14:07 · 境外疑似诈骗 · 已拒接</div>
+                </div>
+                <div class="demo-card" style="border:1px solid #FDECEC;background:#FFF8F8">
+                  <div class="dc-row"><span class="dc-name" style="color:#C62A2E">96110 提示</span><span class="dc-val" style="color:#C62A2E">勿向陌生人转账</span></div>
+                </div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="feature-panel fade-panel" id="p2">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 02 · 快速响应</div>
+            <h3>可疑线索，一键举报<br>让骗子无处遁形</h3>
+            <p>发现诈骗电话、短信、网址或 App，随手一键举报，线索直达反诈中心，公安机关据此研判打击，帮自己也帮他人堵住漏洞。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>电话、短信、网址、App、图片音视频均可举报</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>全程线上办理，举报后生成编号可查进度</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>线索直接接入全国反诈数据中心</li>
+            </ul>
+            <div class="fp-note"><b>累计受理群众举报线索 3845 万条</b>，每一条举报都可能阻止一次诈骗。</div>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>9:41</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">我要举报</div>
+              <div class="demo-body">
+                <div class="demo-card">
+                  <div class="dc-row"><span class="dc-name">诈骗类型</span><span class="dc-val" style="color:var(--blue)">冒充客服 ›</span></div>
+                  <div class="dc-row"><span class="dc-name">举报地</span><span class="dc-val" style="color:var(--blue)">北京市 ›</span></div>
+                  <div class="dc-row"><span class="dc-name">举报描述</span><span class="dc-val" style="color:var(--blue)">请填写 ›</span></div>
+                </div>
+                <div class="demo-sec-label">举报内容（至少一项）</div>
+                <div class="demo-card" style="padding:8px 12px">
+                  <div class="dc-row"><span class="dc-name" style="font-weight:500;font-size:11px">诈骗电话</span><span class="dc-val">+</span></div>
+                  <div class="dc-row"><span class="dc-name" style="font-weight:500;font-size:11px">诈骗短信</span><span class="dc-val">+</span></div>
+                  <div class="dc-row"><span class="dc-name" style="font-weight:500;font-size:11px">诈骗网址</span><span class="dc-val">+</span></div>
+                  <div class="dc-row"><span class="dc-name" style="font-weight:500;font-size:11px">图片 / 录音 / 视频</span><span class="dc-val">+</span></div>
+                </div>
+                <div class="demo-banner" style="background:linear-gradient(120deg,#C62A2E,#E5383B);text-align:center;padding:11px">立即举报</div>
+                <div class="demo-card" style="text-align:center;color:#5B6B8C;font-size:10px">举报编号：FZ2026092400xxxx · 已受理</div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="feature-panel fade-panel" id="p3">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 03 · 2026 新功能</div>
+            <h3>涉诈 App 自检<br>藏在手机里的“李鬼”无所遁形</h3>
+            <p>自动检测手机中安装的各类应用程序和安装包，一旦发现疑似涉诈 App 或不明安装包，立即提示，并支持一键清理删除。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>全机应用 + 安装包双重扫描，风险分级提示</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>仿冒金融 App、涉诈工具类 App 重点识别</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>一键清理删除，从源头铲除风险</li>
+            </ul>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>9:41</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">涉诈 App 自检</div>
+              <div class="demo-body">
+                <div class="demo-banner" style="background:linear-gradient(120deg,#12397A,#1D5AE6)">已检测 68 个应用<br>发现 1 个疑似涉诈 App</div>
+                <div class="demo-card" style="border:1px solid #F5C9C9">
+                  <div class="dc-row"><span class="dc-name">XX 理财·精选版</span><span class="dc-val" style="color:var(--red);font-weight:700">疑似涉诈</span></div>
+                  <div class="dc-row" style="font-size:10px;color:#5B6B8C">未在官方应用市场上架 · 诱导充值</div>
+                </div>
+                <div class="demo-card">
+                  <div class="dc-row"><span class="dc-name">微信</span><span class="dc-val" style="color:#22A06B">安全</span></div>
+                  <div class="dc-row"><span class="dc-name">支付宝</span><span class="dc-val" style="color:#22A06B">安全</span></div>
+                  <div class="dc-row"><span class="dc-name">浏览器</span><span class="dc-val" style="color:#22A06B">安全</span></div>
+                </div>
+                <div class="demo-banner" style="background:linear-gradient(120deg,#C62A2E,#E5383B);text-align:center;padding:11px">一键清理 1 个风险应用</div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="feature-panel fade-panel" id="p4">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 04 · 2026 新功能</div>
+            <h3>AI 内容鉴定<br>识破“AI 换脸”式诈骗新手法</h3>
+            <p>上传图片、视频、音频或文本，一键检测是否存在 AI 生成痕迹。面对 AI 伪造的“熟人视频”“合成语音”，多一道判断依据。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>支持图片、视频、音频、文本多模态检测</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>输出 AI 生成概率与伪造区域提示</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>重点识别诈骗场景中的伪造内容</li>
+            </ul>
+            <div class="fp-note"><b>反诈提醒：</b>“AI 换脸”冒充亲友借钱已成为新型诈骗手法，涉及转账请务必电话或当面核实。</div>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>9:41</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">AI 内容鉴定</div>
+              <div class="demo-body">
+                <div class="demo-banner" style="background:linear-gradient(120deg,#12397A,#1D5AE6);text-align:center;padding:18px 12px">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="margin:0 auto 6px"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="#fff" stroke-width="1.6"/><circle cx="9" cy="9" r="1.6" fill="#fff"/><circle cx="15" cy="9" r="1.6" fill="#fff"/><path d="M8.5 14.5c.8 1 2.1 1.6 3.5 1.6s2.7-.6 3.5-1.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  点击上传图片 / 视频 / 音频 / 文本
+                </div>
+                <div class="demo-card" style="border:1px solid #F5C9C9">
+                  <div class="dc-row"><span class="dc-name">视频文件.mp4</span><span class="dc-val">已上传</span></div>
+                  <div class="dc-row" style="font-size:10px;color:#5B6B8C">时长 12 秒 · 人脸画面 8 帧</div>
+                </div>
+                <div class="demo-card" style="border:1px solid #F5D9A8;background:#FFFDF5">
+                  <div class="dc-row"><span class="dc-name" style="color:#B97A08">检测结果</span><span class="dc-val" style="color:#B97A08;font-weight:700">AI 生成概率 92%</span></div>
+                  <div class="dc-row" style="font-size:10px;color:#B97A08">存在深度合成痕迹，请勿轻信转账</div>
+                </div>
+                <div class="demo-banner" style="background:linear-gradient(120deg,#C62A2E,#E5383B);text-align:center;padding:11px">开始鉴定</div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="feature-panel fade-panel" id="p5">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 05 · 交易前查一查</div>
+            <h3>身份核实 · 风险查询<br>可疑账号先验明正身</h3>
+            <p>对可疑网友的真实身份、社交账号和支付账户进行涉诈风险验证，网上交易、转账之前先查一查，降低网络交易涉诈风险。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>输入手机号、QQ、微信、网址即可核验</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>支付账户涉诈风险一键评估</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>核验结果即时返回，风险等级一目了然</li>
+            </ul>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>9:41</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">风险查询</div>
+              <div class="demo-body">
+                <div class="demo-card">
+                  <div class="dc-row"><span class="dc-name">核验类型</span><span class="dc-val" style="color:var(--blue)">手机号 / 账号 ›</span></div>
+                  <div class="dc-row"><span class="dc-name">输入内容</span><span class="dc-val" style="color:var(--blue)">138 xxxx 7621 ›</span></div>
+                </div>
+                <div class="demo-banner" style="background:linear-gradient(120deg,#12397A,#1D5AE6);text-align:center;padding:11px">立即查询</div>
+                <div class="demo-card" style="border:1px solid #BDEBD6;background:#F2FBF6">
+                  <div class="dc-row"><span class="dc-name" style="color:#158A55">查询结果</span><span class="dc-val" style="color:#158A55;font-weight:700">低风险</span></div>
+                  <div class="dc-row" style="font-size:10px;color:#5B6B8C">该账号暂无涉诈记录，请注意交易安全</div>
+                </div>
+                <div class="demo-card" style="border:1px solid #F5C9C9;background:#FFF8F8">
+                  <div class="dc-row"><span class="dc-name" style="color:var(--red-deep)">高风险账号示例</span><span class="dc-val" style="color:var(--red-deep);font-weight:700">多次被举报</span></div>
+                  <div class="dc-row" style="font-size:10px;color:#5B6B8C">涉及刷单返利类诈骗，建议拉黑</div>
+                </div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="feature-panel fade-panel" id="p6">
+          <div class="feature-copy">
+            <div class="fc-kicker">FUNCTION 06 · 全民反诈</div>
+            <h3>反诈宣传 · 骗局曝光<br>把防骗知识装进口袋</h3>
+            <p>常态化发布防骗知识、拆解诈骗套路、曝光最新骗局，让您和家人第一时间了解诈骗新动向，提升识骗防骗能力。</p>
+            <ul class="feature-points">
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>最新案例与手法拆解，及时掌握骗局新变种</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>骗局曝光栏目，真实案例警示身边人</li>
+              <li><span class="fp-ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2E6BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>反诈知识、反诈宣传手册随时查阅</li>
+            </ul>
+          </div>
+          <div class="phone-demo">
+            <div class="demo-phone"><div class="demo-screen">
+              <div class="demo-bar demo-blue"><span>4G</span><span>9:41</span><span>80%</span></div>
+              <div class="demo-title" style="background:#0D2A5E">最新动态</div>
+              <div class="demo-body">
+                <div class="demo-list" style="display:flex;flex-direction:column;gap:9px">
+                  <div class="dl">
+                    <div class="dl-img" style="background:var(--red-soft)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 8v5m0 3.5v.5M10.3 3.9 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" stroke="#E5383B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div><div class="dl-t">警惕！以“刷单返利”之名诈骗来袭</div><div class="dl-d">国家反诈中心 · 今日</div></div>
+                  </div>
+                  <div class="dl">
+                    <div class="dl-img" style="background:var(--blue-soft)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z" stroke="#2E6BFF" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+                    <div><div class="dl-t">反诈课堂：接到“客服”电话先别信</div><div class="dl-d">防骗知识 · 昨天</div></div>
+                  </div>
+                  <div class="dl">
+                    <div class="dl-img" style="background:var(--gold-soft)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 11V8a4 4 0 1 1 8 0v3m-9.5 1h11a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5v-7A1.5 1.5 0 0 1 6.5 12z" stroke="#F5A623" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+                    <div><div class="dl-t">“杀猪盘”骗局拆解：甜蜜陷阱如何掏空钱包</div><div class="dl-d">骗局曝光 · 前天</div></div>
+                  </div>
+                </div>
+                <div class="demo-nav"><span class="dn-on">首页</span><span>骗局曝光</span><span>我的</span></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 界面展示 ========== -->
+<section id="screens">
+  <div class="wrap">
+    <div class="section-head" data-aos="fade-up">
+      <div class="eyebrow">PRODUCT SCREENS · 产品界面</div>
+      <h2>打开 App，一眼看懂</h2>
+      <p class="sub">首页四宫格直达核心功能，风险自查、最新动态清晰分区，老人也能快速上手。</p>
+    </div>
+    <div class="screens-stage" data-aos="fade-up" data-aos-delay="120">
+      <div class="screens-inner">
+        <div class="screens-copy">
+          <h3 id="screenTitle">首页：功能一目了然</h3>
+          <p id="screenDesc">“我要举报、报案助手、来电预警、身份核实”四大核心功能直达入口，下方风险自查与最新案例分区展示，底部导航切换首页、骗局曝光、个人中心。</p>
+          <div class="screens-thumbs">
+            <div class="sthumb on" data-i="0">
+              <img src="assets/home-1080.png" alt="App首页界面">
+              <div class="st-label">首页 · 主界面</div>
+            </div>
+            <div class="sthumb" data-i="1">
+              <img src="assets/report-page.png" alt="我要举报界面">
+              <div class="st-label">我要举报</div>
+            </div>
+            <div class="sthumb" data-i="2">
+              <img src="assets/home-2024.png" alt="首页2024版界面">
+              <div class="st-label">首页 · 2024版</div>
+            </div>
+            <div class="sthumb" data-i="3">
+              <img src="assets/news-page.png" alt="骗局曝光资讯界面">
+              <div class="st-label">骗局曝光 · 资讯</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+            <div class="phone-screen" id="screenStage">
+            <img src="assets/home-1080.png" alt="国家反诈中心App界面">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 产品演进 ========== -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="section-head" data-aos="fade-up">
+      <div class="eyebrow">MILESTONES · 产品演进</div>
+      <h2>五年守护，不断进化</h2>
+      <p class="sub">从“上线即爆款”到“AI 加持”，国家反诈中心 App 始终与新型骗术赛跑。</p>
+    </div>
+    <div class="tl" data-aos="fade-up" data-aos-delay="120">
+      <div class="tl-row">
+        <div class="tl-date">2021.03.15</div>
+        <div class="tl-axle"></div>
+        <div class="tl-body">
+          <h4>国家反诈中心 App 正式上线</h4>
+          <p>由公安部刑事侦查局推出，集预警提示、线索举报、远程身份验证、反诈宣传等功能于一身，上线即成为群众手机里的反诈“防火墙”。</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2023.06</div>
+        <div class="tl-axle"></div>
+        <div class="tl-body">
+          <h4>功能持续完善，累计预警突破 3.1 亿次</h4>
+          <p>预警劝阻、风险查询、骗局曝光等功能持续迭代；反诈“国家队”七大反诈利器体系成型，App 与 96110、12381 深度联动。</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2026 至今</div>
+        <div class="tl-axle has-gold"></div>
+        <div class="tl-body">
+          <h4>新增涉诈 App 自检与 AI 内容鉴定<span class="tl-tag">最新</span></h4>
+          <p>针对“App 仿冒”与“AI 换脸”两类新型诈骗手段，推出涉诈 App 自检（扫描全机应用与安装包、一键清理）与 AI 内容鉴定（检测图片视频音频文本的 AI 生成痕迹），累计向群众预警 6.27 亿次。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 反诈生态 ========== -->
+<section id="ecosystem">
+  <div class="wrap">
+    <div class="section-head" data-aos="fade-up">
+      <div class="eyebrow">ANTI-FRAUD ECOSYSTEM · 反诈生态</div>
+      <h2>反诈“国家队”：预警提示类五大利器</h2>
+      <p class="sub">国家反诈中心 App 与四大官方利器协同，构建覆盖“事前、事中、事后”的全方位预警体系。</p>
+    </div>
+    <div class="eco-grid" data-aos="fade-up" data-aos-delay="120">
+      <div class="eco-card main">
+        <span class="eco-badge">本页主角</span>
+        <div class="eco-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12l2.2 2.2 4.2-4.4" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h4>国家反诈中心 App</h4>
+        <p class="eco-desc">官方手机防骗保护软件，预警、举报、自检、AI 鉴定、宣传一站式防护。</p>
+        <div class="eco-data">累计预警 <b>6.27 亿次</b> · 受理举报 <b>3845 万条</b></div>
+      </div>
+      <div class="eco-card">
+        <span class="eco-badge">电话</span>
+        <div class="eco-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+        <h4>96110 预警劝阻专线</h4>
+        <p class="eco-desc">全国反诈专用号码：预警劝阻、防骗咨询、涉诈举报三合一。</p>
+        <div class="eco-data"><b>31</b> 个省区市公安机关全部开通</div>
+      </div>
+      <div class="eco-card">
+        <span class="eco-badge">短信</span>
+        <div class="eco-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="#fff" stroke-width="1.8"/><path d="M3 9.5h18" stroke="#fff" stroke-width="1.8"/><path d="M7 14.5h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h4>12381 涉诈预警短信</h4>
+        <p class="eco-desc">大数据识别潜在被骗用户，第一时间短信预警劝阻。</p>
+        <div class="eco-data">累计发送预警 <b>17.26 亿条</b></div>
+      </div>
+      <div class="eco-card">
+        <span class="eco-badge">来电</span>
+        <div class="eco-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="#fff" stroke-width="1.8"/><path d="M3 9.5h18" stroke="#fff" stroke-width="1.8"/><circle cx="16.5" cy="15" r="2" fill="#F5A623"/></svg></div>
+        <h4>反诈名片</h4>
+        <p class="eco-desc">标记公安机关预警电话，接听时弹窗提示，让您放心接听。</p>
+        <div class="eco-data">接通 <b>6.6 亿次</b> · 接通率提升 <b>32.8%</b></div>
+      </div>
+      <div class="eco-card">
+        <span class="eco-badge">境外</span>
+        <div class="eco-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#fff" stroke-width="1.8"/><path d="M3.5 12h17M12 3.5c2.6 2.4 4 5.2 4 8.5s-1.4 6.1-4 8.5c-2.6-2.4-4-5.2-4-8.5s1.4-6.1 4-8.5z" stroke="#fff" stroke-width="1.6"/></svg></div>
+        <h4>境外来电提醒服务</h4>
+        <p class="eco-desc">接到境外电话或短信时同步弹窗提示来源，自主甄别。</p>
+        <div class="eco-data">累计提醒服务 <b>25.23 亿次</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 骗局识别 ========== -->
+<section id="scams">
+  <div class="wrap">
+    <div class="section-head" data-aos="fade-up">
+      <div class="eyebrow">KNOW YOUR ENEMY · 骗局识别</div>
+      <h2>六大高发骗局，提前识破</h2>
+      <p class="sub">公安部《防范电信网络诈骗宣传手册》点名的高发类型——骗局千变万化，套路万变不离其宗。</p>
+    </div>
+    <div class="scam-grid" data-aos="fade-up" data-aos-delay="100">
+      <div class="scam-card">
+        <span class="scam-no">01</span>
+        <div><h4>网络贷款诈骗</h4><p>“无抵押、秒到账”诱饵下，先交“解冻费、保证金”，钱一到手就失联。</p></div>
+      </div>
+      <div class="scam-card">
+        <span class="scam-no">02</span>
+        <div><h4>刷单返利诈骗</h4><p>小额返利引你上钩，大额刷单后以“系统故障”吞掉本金，兼职刷单就是诈骗。</p></div>
+      </div>
+      <div class="scam-card">
+        <span class="scam-no">03</span>
+        <div><h4>“杀猪盘”诈骗</h4><p>婚恋交友为名培养感情，再诱导虚假投资、博彩，“高富帅”多半是托。</p></div>
+      </div>
+      <div class="scam-card">
+        <span class="scam-no">04</span>
+        <div><h4>冒充电商物流客服</h4><p>“商品质量问题”“快递丢失理赔”引导你转账或开启屏幕共享盗刷。</p></div>
+      </div>
+      <div class="scam-card">
+        <span class="scam-no">05</span>
+        <div><h4>冒充“公检法”诈骗</h4><p>“涉嫌洗钱、安全账户”恐吓转账，记住：公检法没有“安全账户”，更不会网上办案。</p></div>
+      </div>
+      <div class="scam-card">
+        <span class="scam-no">06</span>
+        <div><h4>冒充熟人或领导</h4><p>“我是你领导/老朋友”，急用钱、代转账，务必先电话或当面核实身份。</p></div>
+      </div>
+    </div>
+    <div class="mantra" data-aos="fade-up" data-aos-delay="120">
+      <div class="mantra-ic">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z" stroke="#F5A623" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12l2.2 2.2 4.2-4.4" stroke="#F5A623" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h4>公安部反诈宣传口诀 · “三不一多”</h4>
+        <div class="mantra-items">
+          <div class="m-item"><div class="m-n">不</div><div class="m-t">未知链接不点击</div><div class="m-d">短信里的链接，先别急着点</div></div>
+          <div class="m-item"><div class="m-n">不</div><div class="m-t">陌生来电不轻信</div><div class="m-d">自称客服、公检法的都先核实</div></div>
+          <div class="m-item"><div class="m-n">不</div><div class="m-t">个人信息不透露</div><div class="m-d">验证码、密码、人脸绝不外泄</div></div>
+          <div class="m-item"><div class="m-n">多</div><div class="m-t">转账汇款多核实</div><div class="m-d">转账前电话或当面确认身份</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 下载指引 ========== -->
+<section id="download">
+  <div class="wrap">
+    <div class="dl-wrap" data-aos="fade-up">
+      <div class="dl-inner">
+        <div class="dl-copy">
+          <h3>三步完成安装<br>给全家人的手机加上“反诈锁”</h3>
+          <p>在各大官方应用商店搜索“国家反诈中心”即可免费下载。安装后请完成实名认证并开启“来电预警”，防护即刻生效。</p>
+          <div class="dl-steps">
+            <div class="dl-step"><span class="ds-n">1</span><div><div class="ds-t">官方应用商店搜索“国家反诈中心”</div><div class="ds-d">认准开发者“公安部刑事侦查局”，谨防仿冒 App</div></div></div>
+            <div class="dl-step"><span class="ds-n">2</span><div><div class="ds-t">下载安装 · 实名注册</div><div class="ds-d">使用手机号完成实名认证，全程免费</div></div></div>
+            <div class="dl-step"><span class="ds-n">3</span><div><div class="ds-t">开启“来电预警”</div><div class="ds-d">按指引开启预警权限，防护立即生效</div></div></div>
+            <div><button class="dl-cta" onclick="toast('请在官方应用商店搜索「国家反诈中心」下载安装')">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              立即免费下载 · 开启反诈防护
+            </button></div>
+          </div>
+        </div>
+        <div class="store-list">
+          <div class="store-grid">
+            <button class="store-card hvr-float" onclick="toast('请在 App Store 搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15.7 4.6c.7-.9 1.9-1.6 3-1.6.2 1.3-.3 2.7-1 3.6-.7.9-1.9 1.7-3 1.6-.1-1.3.4-2.7 1-3.6zM16.5 7.6c.8 0 1.6-.4 2.2-1.1.6.8.9 1.7.9 2.6-.1 2.7-2.4 4.9-5 4.9-.8 0-1.5-.1-2.1-.3-.2.1-.4.1-.6.1-2.6 0-5-2.1-5-5.2 0-3.1 2.4-5.5 5-5.5.8 0 1.5.2 2.1.5.6-.3 1.3-.5 2.1-.5 1.2 0 2.4.4 3.3 1.1-1 .7-1.7 1.8-1.9 3.1-.2 1.2.1 2.4.8 3.3z" fill="#3B3B3B"/></svg></span>
+              <span><span class="st-name">App Store</span><br><span class="st-note">iPhone · iPad</span></span>
+            </button>
+            <button class="store-card hvr-float" onclick="toast('请在华为应用市场搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v4.5M12 16.5V21M3 12h4.5M16.5 12H21M5.6 5.6l3.2 3.2M15.2 15.2l3.2 3.2M18.4 5.6l-3.2 3.2M8.8 15.2l-3.2 3.2" stroke="#C8102E" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" stroke="#C8102E" stroke-width="1.7"/></svg></span>
+              <span><span class="st-name">华为应用市场</span><br><span class="st-note">HarmonyOS · Android</span></span>
+            </button>
+            <button class="store-card hvr-float" onclick="toast('请在小米应用商店搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h4v5H5V4zm5 0h4v5h-4V4zm5 0h4v5h-4V4zM5 9h4v5H5V9zm5 0h4v5h-4V9zm5 0h4v5h-4V9zM5 14h4v5H5v-5zm5 0h4v5h-4v-5z" stroke="#FF6900" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+              <span><span class="st-name">小米应用商店</span><br><span class="st-note">MIUI · Android</span></span>
+            </button>
+            <button class="store-card hvr-float" onclick="toast('请在 OPPO 软件商店搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="5" stroke="#0AA050" stroke-width="1.8"/><circle cx="9" cy="12" r="1.3" fill="#0AA050"/><circle cx="15" cy="12" r="1.3" fill="#0AA050"/></svg></span>
+              <span><span class="st-name">OPPO 软件商店</span><br><span class="st-note">ColorOS · Android</span></span>
+            </button>
+            <button class="store-card hvr-float" onclick="toast('请在 vivo 应用商店搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.8 4.6L12 12l-2.8-4.4L12 3z" fill="#415FFF"/><path d="M12 12l5-1.4 3 4.4-4.5 2.4L12 12zm0 0L7 10.6 4 15l4.5 2.4L12 12z" fill="#415FFF"/><path d="M12 21l-2.8-4.6L12 12l2.8 4.4L12 21z" fill="#415FFF"/></svg></span>
+              <span><span class="st-name">vivo 应用商店</span><br><span class="st-note">OriginOS · Android</span></span>
+            </button>
+            <button class="store-card hvr-float" onclick="toast('请在应用宝搜索「国家反诈中心」下载')">
+              <span class="st-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 4h8a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" stroke="#1E5BD6" stroke-width="1.7"/><path d="M14 4v5h5" stroke="#1E5BD6" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="2.2" stroke="#1E5BD6" stroke-width="1.6"/></svg></span>
+              <span><span class="st-name">应用宝</span><br><span class="st-note">腾讯应用市场</span></span>
+            </button>
+          </div>
+          <p style="margin-top:16px;font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.7">仅支持官方应用市场下载，App 内不包含任何收费项目。<br>如遇自称“国家反诈中心客服”索要转账，均为诈骗，请直接拨打 96110 举报。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="brand-icon foot-icon" src="assets/app-icon.png" alt="国家反诈中心App图标">
+        国家反诈中心 App · 产品介绍页
+      </div>
+      <div class="footer-links">
+        <a href="#features">核心功能</a>
+        <a href="#screens">界面展示</a>
+        <a href="#timeline">产品演进</a>
+        <a href="#ecosystem">反诈生态</a>
+        <a href="#scams">骗局识别</a>
+      </div>
+    </div>
+    <div class="footer-note">
+      <b>产品信息：</b>国家反诈中心 App 由公安部刑事侦查局推出，2021 年 3 月 15 日正式上线，是一款官方手机防骗保护软件，集预警提示、线索举报、涉诈 App 自检、AI 内容鉴定、反诈宣传等功能于一身。<br>
+      <b>数据来源：</b>公安部网站（mps.gov.cn）2026 年 6 月公开报道及历年发布会通报；App 界面截图来源于公开网络资料，功能界面为高保真示意，实际界面请以 App 内为准。<br>
+      <b>下载方式：</b>请通过各大官方应用商店搜索“国家反诈中心”下载，谨防仿冒。全国反诈预警劝阻专线：<a href="tel:96110">96110</a>；如遇诈骗请及时拨打 <a href="tel:110">110</a> 报警。<br>
+      <span style="opacity:.5">本页面为产品宣传介绍用途，所有数据与信息以公安部官方发布为准。</span>
+    </div>
+  </div>
+</footer>
+
+<div class="float-char left">
+  <div class="float-bubble" id="scamBubble"><div class="who">骗子来电</div><span id="scamText">您的账户涉嫌洗钱，速转“安全账户”！</span></div>
+  <div class="float-face"><img src="assets/scammer.png" alt="冒充公检法的骗子插画"></div>
+</div>
+<div class="float-char right">
+  <div class="float-bubble show" id="copBubble"><div class="who">警官提示</div>是骗子，别信他！下载国家反诈中心App！</div>
+  <div class="float-face"><img src="assets/police.png" alt="反诈民警插画"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  /* AOS 滚动入场：once:true 仅播放一次，性能友好 */
+  if(window.AOS){
+    AOS.init({duration:750, easing:'ease-out-cubic', once:true, offset:80, delay:0});
+  }
+
+  /* ===== 版本B 专属动效：Vanta 粒子首屏 + anime 编排 + Lenis 平滑滚动 ===== */
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile=window.matchMedia('(max-width:768px)').matches;
+
+  /* Lenis 惯性平滑滚动（reduced-motion 时不启用） */
+  var lenis=null;
+  if(!reduced && window.Lenis){
+    lenis=new Lenis({duration:1.15, smoothWheel:true});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}
+    requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var id=a.getAttribute('href');
+        if(id.length>1){
+          var target=document.querySelector(id);
+          if(target){e.preventDefault();lenis.scrollTo(target,{offset:-64});}
+        }
+      });
+    });
+  }
+
+  /* Vanta NET 粒子网络背景：深蓝守护主题，移动端降密度，失败静默降级 */
+  if(!reduced && window.VANTA && window.THREE){
+    try{
+      VANTA.NET({
+        el:'#vanta-hero',
+        color:0x4F8CFF,
+        backgroundColor:0x0A1B3D,
+        points: isMobile?7:11,
+        maxDistance: isMobile?16:19,
+        spacing: isMobile?13:14
+      });
+    }catch(err){/* 静默降级为静态渐变背景 */}
+  }
+
+  /* anime.js 首屏入场编排：徽章→标题→副文→按钮→手机→信任条，错峰上移 */
+  if(!reduced && window.anime){
+    /* 只做位移编排，不做 opacity 淡入：任何截图时机/JS 失败下内容都可见 */
+    anime.timeline({easing:'easeOutCubic'})
+      .add({targets:'.hero-badge',translateY:[14,0],duration:700})
+      .add({targets:'#heroTitle',translateY:[22,0],duration:900},'-=500')
+      .add({targets:'#heroLead',translateY:[18,0],duration:800},'-=600')
+      .add({targets:'#heroActions .btn',translateY:[16,0],delay:anime.stagger(130),duration:700},'-=550')
+      .add({targets:'#heroTrust .item',translateY:[10,0],delay:anime.stagger(120),duration:600},'-=500')
+      .add({targets:'#heroPhone',translateX:[50,0],scale:[.96,1],duration:1100},'-=950');
+  } else {
+    /* 无 anime 时保底：内容直接可见 */
+    document.querySelectorAll('#heroTitle,#heroLead,#heroActions .btn,#heroTrust .item,.hero-badge,#heroPhone')
+      .forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+  }
+
+  var nav=document.getElementById('nav'),navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks');
+  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>24);}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  navToggle.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('open');});});
+
+  /* ---- 数字滚动 ---- */
+  function animateNum(el){
+    var target=parseFloat(el.dataset.count),dec=parseInt(el.dataset.decimals||'0',10);
+    if(isNaN(target))return;
+    var dur=1400,t0=null;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1);
+      p=1-Math.pow(1-p,3);
+      el.textContent=(target*p).toLocaleString('zh-CN',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.dataset.counted='1';
+        e.target.querySelectorAll('.num[data-count]').forEach(animateNum);
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  var statsBox=document.querySelector('.stats-inner');
+  if(statsBox)io.observe(statsBox);
+
+  /* ---- 功能 tab 切换 ---- */
+  var tabs=document.querySelectorAll('.ftab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      tabs.forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+      var id=tab.dataset.panel;
+      document.querySelectorAll('.fade-panel').forEach(function(p){p.classList.remove('show');});
+      var panel=document.getElementById(id);
+      if(panel){panel.classList.remove('show');void panel.offsetWidth;panel.classList.add('show');}
+    });
+  });
+
+  /* ---- 界面展示切换 ---- */
+  var thumbs=document.querySelectorAll('.sthumb');
+  var screenTitle=document.getElementById('screenTitle'),screenDesc=document.getElementById('screenDesc'),screenImg=document.querySelector('#screenStage img');
+  var shotMeta=[
+    {t:'首页：功能一目了然',d:'“我要举报、报案助手、来电预警、身份核实”四大核心功能直达入口，下方风险自查与最新案例分区展示，底部导航切换首页、骗局曝光、个人中心。'},
+    {t:'我要举报：可疑内容轻松举报',d:'填写诈骗类型、举报地、举报描述，支持上传电话、短信、网址、App 及图片音视频证据，一键提交直达反诈中心。'},
+    {t:'首页：全民反诈在行动',d:'新版首页强化反诈宣传主题，四大功能入口常驻，风险自查与最新动态清晰分区，操作路径更短、更好上手。'},
+    {t:'骗局曝光：真实案例滚动更新',d:'高发电诈案例持续更新，标题速览 + 深度拆解，配图直击骗局现场，帮助用户及时了解诈骗新手法。'}
+  ];
+  thumbs.forEach(function(th){
+    th.addEventListener('click',function(){
+      thumbs.forEach(function(t){t.classList.remove('on');});
+      th.classList.add('on');
+      var i=parseInt(th.dataset.i,10);
+      var m=shotMeta[i];
+      if(m){screenTitle.textContent=m.t;screenDesc.textContent=m.d;}
+      screenImg.src=th.querySelector('img').src;
+    });
+  });
+
+  /* B版兜底：2.6s 后若数字仍未触发，强制播放一次（兼容 Lenis 滚动与截图环境） */
+  setTimeout(function(){
+    if(statsBox && statsBox.dataset.counted!=='1'){
+      statsBox.dataset.counted='1';
+      statsBox.querySelectorAll('.num[data-count]').forEach(animateNum);
+    }
+  },2600);
+
+  /* ===== 后半段动效：三步下载弹入 + 卡片错峰上浮 ===== */
+  function runWhenInView(el,cb){
+    if(!el)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){cb();io.disconnect();}});
+    },{threshold:.22});
+    io.observe(el);
+  }
+  if(!reduced && window.anime){
+    runWhenInView(document.getElementById('download'),function(){
+      anime.timeline({easing:'easeOutBack'})
+        .add({targets:'#download .ds-n',scale:[0,1],delay:anime.stagger(240),duration:850})
+        .add({targets:'#download .ds-t, #download .ds-d',translateY:[16,0],delay:anime.stagger(240),duration:600},'-=650');
+    });
+    runWhenInView(document.querySelector('.eco-grid'),function(){
+      anime({targets:'.eco-card',translateY:[28,0],delay:anime.stagger(110),duration:720,easing:'easeOutCubic'});
+    });
+    runWhenInView(document.querySelector('.scam-grid'),function(){
+      anime({targets:'.scam-card',translateY:[26,0],delay:anime.stagger(100),duration:680,easing:'easeOutCubic'});
+    });
+    runWhenInView(document.querySelector('.mantra-items'),function(){
+      anime({targets:'.mantra-items .m-item',scale:[.86,1],translateY:[14,0],delay:anime.stagger(130),duration:650,easing:'easeOutBack'});
+    });
+  }
+
+  /* ===== 左下角骗子话术轮播 ===== */
+  var scams=[
+    "您的账户涉嫌洗钱，速转“安全账户”！",
+    "刷单5分钟赚300，先垫小单试试？",
+    "快递丢了，我给你理赔，点这个链接",
+    "我是你领导，急用钱，先转我五千",
+    "小额贷款秒到账，先交一笔保证金",
+    "猜猜我是谁？老朋友刚换了新号码"
+  ];
+  if(!reduced){
+    var scamB=document.getElementById('scamBubble'),scamT=document.getElementById('scamText'),si=0;
+    setTimeout(function(){scamB.classList.add('show');},600);
+    setInterval(function(){
+      scamB.classList.remove('show');
+      setTimeout(function(){
+        si=(si+1)%scams.length;scamT.textContent=scams[si];scamB.classList.add('show');
+      },450);
+    },3200);
+  }else{
+    document.getElementById('scamBubble').classList.add('show');
+  }
+
+  /* ---- Toast ---- */
+  var toastEl=document.getElementById('toast'),toastTimer=null;
+  window.toast=function(msg){
+    toastEl.innerHTML=msg.replace(/「/g,'<b>「').replace(/」/g,'」</b>');
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){toastEl.classList.remove('show');},3200);
+  };
+})();
+</script>
+</body>
+</html>
